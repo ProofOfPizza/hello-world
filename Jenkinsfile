@@ -4,9 +4,8 @@ pipeline {
         stage('build') {
             steps {
                 sh 'mvn --version'
-                sh 'echo "blaaa2"'
+                sh 'echo "docker installed and running"'
                 sh 'echo $PATH'
-
             }
         }
     }
