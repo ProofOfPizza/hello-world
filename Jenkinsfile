@@ -1,8 +1,9 @@
 pipeline {
-    agent any
+    agent { docker }
     stages {
         stage('build') {
             steps {
+                args '-u root --privileged'
                 sh 'whoami'
                 sh 'sudo su'
                 sh 'whoami'
