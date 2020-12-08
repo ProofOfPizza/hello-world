@@ -3,7 +3,6 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                args '-u root --privileged'
                 sh 'whoami'
                 sh 'sudo su'
                 sh 'whoami'
