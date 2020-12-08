@@ -1,7 +1,5 @@
-# Pull base image 
-From tomcat:8-jre8 
-
-# Maintainer 
-MAINTAINER "valaxytech@gmail.com" 
-COPY ./webapp.war /usr/local/tomcat/webapps
+FROM maven:3.6-jdk-8-openj9
+RUN apt-get update && apt-get install -y \
+git\
+vim\
 
