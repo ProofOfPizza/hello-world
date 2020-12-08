@@ -1,10 +1,8 @@
 pipeline {
-    agent  docker
+    agent any
     stages {
         stage('build') {
             steps {
-                sh 'whoami'
-                sh 'sudo su'
                 sh 'whoami'
                 sh 'docker info'
                 sh 'mvn --version'
