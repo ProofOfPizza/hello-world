@@ -8,10 +8,10 @@ pipeline {
         DOCK_CONT = sh(script:'docker ps -a -q', returnStdout: true)
       }
       when {
-        DOCK_CONT != null
+        ${env.DOCK_CONT} != null
       }
       steps{
-        sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}'
+        sh 'docker stop ${env.DOCK_CONT} && docker rm ${DOCK_CONT}'
       }
     }
     stage('.... and images'){
@@ -20,7 +20,7 @@ pipeline {
         DOCK_IMG = sh(script:'docker images -a -q', returnStdout: true)
       }
       when {
-        DOCK_IMG != null
+        ${env.DOCK_IMG} != null
       }
       steps{
         sh 'docker system prune --all --force'
