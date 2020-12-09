@@ -29,7 +29,7 @@ pipeline {
       steps{
         sh 'docker system prune --all --force'
         sh 'docker system prune --all --volumes --force'
-        sh 'docker rmi ${env.DOCK_IMG}'
+        sh "docker rmi $env.DOCK_IMG"
       }
     }
     stage('stick it in a container'){
