@@ -2,21 +2,18 @@ pipeline {
   agent none
 
   stages{
-    stage('cleanup shit'){
+    stage('clear out docker containers'){
       agent any
-      stages {
-        stage('clear out docker containers'){
-          steps{
-            sh 'docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
-          }
-        }
-        stage('.... and images'){
-          steps{
-            sh 'docker system prune --all --force'
-            sh 'docker system prune --all --volumes'
-            sh 'docker rmi $(docker images -a -q)'
-          }
-        }
+      steps{
+        sh 'docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+      }
+    }
+    stage('.... and images'){
+      agent any
+      steps{
+        sh 'docker system prune --all --force'
+        sh 'docker system prune --all --volumes'
+        sh 'docker rmi $(docker images -a -q)'
       }
     }
     stage('stick it in a container'){
@@ -27,7 +24,7 @@ pipeline {
         }
       }
     }
-    stage('push to docker hub')
+    stage('push to docker hub'){
       stages {
         stage('push') {
           steps {
