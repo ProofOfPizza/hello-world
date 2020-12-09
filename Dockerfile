@@ -10,6 +10,6 @@ RUN ["mvn", "clean","install"]
 RUN ls
 
 FROM tomcat:8-jre8 as release
-COPY --from=build ./webapp/taget/webapp.war /usr/local/tomcat/webapps
+COPY --from=build ./webapp/target/webapp.war /usr/local/tomcat/webapps
 
 
