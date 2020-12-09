@@ -6,10 +6,14 @@ pipeline {
       agent any
       stages {
         stage('checkout'){
-          git 'https://github.com/ProofOfPizza/hello-world.git'
+          steps{
+            git 'https://github.com/ProofOfPizza/hello-world.git'
+          }
         }
         stage('build'){
-          sh 'mvn clean install package'
+          steps{
+            sh 'mvn clean install package'
+          }
         }
       }
     }
@@ -30,5 +34,3 @@ pipeline {
     }
   }
 }
-
-
