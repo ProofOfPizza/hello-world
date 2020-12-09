@@ -13,7 +13,7 @@ pipeline {
         }
       }
       steps{
-        sh 'docker stop ${env.DOCK_CONT} && docker rm ${env.DOCK_CONT}'
+        sh "docker stop $env.DOCK_CONT && docker rm $env.DOCK_CONT"
       }
     }
     stage('.... and images'){
@@ -51,7 +51,7 @@ pipeline {
           steps {
             sh 'docker images'
             sh 'docker tag proofofpizza/hello-world:first proofofpizza/hello-world:latest'
-            sh 'docker tag proofofpizza/hello-world:first proofofpizza/hello-world:${env.GIT_COMMIT}'
+            sh "docker tag proofofpizza/hello-world:first proofofpizza/hello-world:$env.GIT_COMMIT"
           }
         }
       }
