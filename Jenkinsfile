@@ -7,6 +7,9 @@ pipeline {
       environment {
         DOCK_CONT = sh(script:'docker ps -a -q', returnStdout: true)
       }
+      when {
+        DOCK_CONT != null
+      }
       steps{
         sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}'
       }
@@ -15,6 +18,9 @@ pipeline {
       agent any
       environment {
         DOCK_IMG = sh(script:'docker images -a -q', returnStdout: true)
+      }
+      when {
+        DOCK_IMG != null
       }
       steps{
         sh 'docker system prune --all --force'
