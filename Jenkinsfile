@@ -36,6 +36,7 @@ pipeline {
       agent {
         dockerfile {
           filename 'Dockerfile'
+          additionalBuildArgs '--build-arg tag=proofofpizza/hello-world:${env.GIT_COMMIT}'
           reuseNode true
         }
       }
@@ -49,8 +50,7 @@ pipeline {
           agent any
           steps {
             sh 'docker images'
-            sh 'docker tag tomcat:8-jre8 proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}'
-            sh 'docker tag tomcat:8-jre8 proofofpizza/hello-world:latest'
+            sh 'docker tag proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER} proofofpizza/hello-world:latest'
           }
         }
       }
