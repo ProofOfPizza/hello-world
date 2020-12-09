@@ -11,7 +11,7 @@ pipeline {
     stage('.... and images'){
       agent any
       environment {
-        DOCK = '${sh(script:'docker images -a -q', returnStdout: true)'
+        DOCK = '${sh(script:"docker images -a -q", returnStdout: true)'
       }
       steps{
         sh 'docker system prune --all --force'
