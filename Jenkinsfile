@@ -36,7 +36,7 @@ pipeline {
       agent {
         dockerfile {
           filename 'Dockerfile'
-          additionalBuildArgs '--build-arg --tag=proofofpizza/hello-world:${env.GIT_COMMIT}'
+          additionalBuildArgs '-t proofofpizza/hello-world:${env.GIT_COMMIT}'
           reuseNode true
         }
       }
