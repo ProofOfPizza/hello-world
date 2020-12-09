@@ -4,19 +4,22 @@ pipeline {
   stages{
     stage('clear out docker containers'){
       agent any
+      environment {
+        DOCK_CONT = '${sh(script:"docker ps -a -q", returnStdout: true)'
+      }
       steps{
-        sh 'docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+        sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}
       }
     }
     stage('.... and images'){
       agent any
       environment {
-        DOCK = '${sh(script:"docker images -a -q", returnStdout: true)'
+        DOCK_IMG = '${sh(script:"docker images -a -q", returnStdout: true)'
       }
       steps{
         sh 'docker system prune --all --force'
         sh 'docker system prune --all --volumes --force'
-        sh 'docker rmi ${env.DOCK}'
+        sh 'docker rmi ${env.DOCK_IMG}'
       }
     }
     stage('stick it in a container'){
