@@ -10,11 +10,13 @@ pipeline {
     }
     stage('.... and images'){
       agent any
+      environment {
+        DOCK = '${sh(script:'docker images -a -q', returnStdout: true)'
+      }
       steps{
         sh 'docker system prune --all --force'
         sh 'docker system prune --all --volumes --force'
-        DOCK = '${sh(script:'docker images -a -q', returnStdout: true)'
-        sh 'docker rmi ${DOCK}'
+        sh 'docker rmi ${env.DOCK}'
       }
     }
     stage('stick it in a container'){
