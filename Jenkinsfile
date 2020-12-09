@@ -12,8 +12,8 @@ pipeline {
       agent any
       steps{
         sh 'docker system prune --all --force'
-        sh 'docker system prune --all --volumes'
-        sh 'docker rmi $(docker images -a -q)'
+        sh 'docker system prune --all --volumes --force'
+        sh 'docker rmi \$(docker images -a -q)'
       }
     }
     stage('stick it in a container'){
