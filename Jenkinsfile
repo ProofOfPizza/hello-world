@@ -5,7 +5,7 @@ pipeline {
     stage('clear out docker containers'){
       agent any
       environment {
-        DOCK_CONT = "${sh(script:'docker ps -a -q', returnStdout: true)"
+        DOCK_CONT = sh(script:'docker ps -a -q', returnStdout: true)
       }
       steps{
         sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}'
@@ -14,7 +14,7 @@ pipeline {
     stage('.... and images'){
       agent any
       environment {
-        DOCK_IMG = "${sh(script:'docker images -a -q', returnStdout: true)"
+        DOCK_IMG = sh(script:'docker images -a -q', returnStdout: true)
       }
       steps{
         sh 'docker system prune --all --force'
