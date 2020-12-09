@@ -46,6 +46,7 @@ pipeline {
     stage('push to docker hub'){
       stages {
         stage('push') {
+          agent any
           steps {
             sh 'docker images'
             sh 'docker tag release proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}'
