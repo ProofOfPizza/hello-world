@@ -32,8 +32,8 @@ pipeline {
         stage('push') {
           steps {
             sh 'docker images'
-            sh 'docker tag release proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}
-            sh 'docker tag release proofofpizza/hello-world:latest
+            sh 'docker tag release proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}'
+            sh 'docker tag release proofofpizza/hello-world:latest'
           }
         }
       }
