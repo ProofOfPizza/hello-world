@@ -5,11 +5,11 @@ pipeline {
     stage('build project'){
       agent any
       stages {
-        stage('checkout'){
-          steps{
-            git 'https://github.com/ProofOfPizza/hello-world.git'
-          }
-        }
+//        stage('checkout'){
+//          steps{
+//            git 'https://github.com/ProofOfPizza/hello-world.git'
+//          }
+//        }
         stage('build'){
           steps{
             sh 'mvn clean install package'

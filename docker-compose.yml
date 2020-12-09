@@ -1,0 +1,5 @@
+version: "3.0"
+services:
+  hello-world:
+    ports:
+      - "5432:8080"
