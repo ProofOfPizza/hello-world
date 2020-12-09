@@ -13,7 +13,7 @@ pipeline {
       steps{
         sh 'docker system prune --all --force'
         sh 'docker system prune --all --volumes --force'
-        DOCK = "${sh(script:'docker images -a -q', returnStdout: true)"
+        DOCK = '${sh(script:'docker images -a -q', returnStdout: true)'
         sh 'docker rmi ${DOCK}'
       }
     }
