@@ -11,5 +11,5 @@ RUN ls
 
 FROM tomcat:8-jre8 as release
 WORKDIR /src
-COPY --from=build ./webapp/target/webapp.war /usr/local/tomcat/webapps
+COPY --from=build /src/webapp/target/webapp.war /usr/local/tomcat/webapps
 
