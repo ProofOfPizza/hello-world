@@ -23,6 +23,9 @@ pipeline {
           reuseNode true
         }
       }
+      steps{
+        echo 'we did it'
+      }
     }
     stage('push to docker hub'){
       stages {
