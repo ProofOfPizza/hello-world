@@ -49,8 +49,8 @@ pipeline {
           agent any
           steps {
             sh 'docker images'
-            sh 'docker tag release proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}'
-            sh 'docker tag release proofofpizza/hello-world:latest'
+            sh 'docker tag tomcat:8-jre8 proofofpizza/hello-world:${env.GIT_COMMIT}.${env.BUILD_NUMBER}'
+            sh 'docker tag tomcat:8-jre8 proofofpizza/hello-world:latest'
           }
         }
       }
