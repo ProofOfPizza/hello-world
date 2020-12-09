@@ -8,7 +8,7 @@ pipeline {
         DOCK_CONT = '${sh(script:"docker ps -a -q", returnStdout: true)'
       }
       steps{
-        sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}
+        sh 'docker stop ${DOCK_CONT} && docker rm ${DOCK_CONT}'
       }
     }
     stage('.... and images'){
