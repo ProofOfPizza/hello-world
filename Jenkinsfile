@@ -6,6 +6,7 @@ pipeline {
       agent any
       steps{
         echo 'welcome to the pipeline'
+//        sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
       }
     }
     stage('clear out docker containers'){
@@ -61,7 +62,8 @@ pipeline {
             sh 'docker images'
             sh 'docker tag proofofpizza/hello-world:first proofofpizza/hello-world:latest'
             sh "docker tag proofofpizza/hello-world:first proofofpizza/hello-world:$env.GIT_COMMIT"
-            sh "docker image push proofofpizza/hello-world:latest proofofpizza/hello-world:$env.GIT_COMMIT"
+            sh "docker image push proofofpizza/hello-world:latest"
+            sh "docker image push proofofpizza/hello-world:$env.GIT_COMMIT"
           }
         }
       }
