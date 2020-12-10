@@ -13,6 +13,7 @@ pipeline {
         }
       }
       steps{
+        echo 'containers were found (running) ... stopping and removing'
         sh "docker stop $env.DOCK_CONT && docker rm $env.DOCK_CONT"
       }
     }
@@ -27,6 +28,7 @@ pipeline {
         }
       }
       steps{
+        echo 'images were found.... pruning now... '
         sh 'docker system prune --all --force'
         sh 'docker system prune --all --volumes --force'
         sh "docker rmi $env.DOCK_IMG"
@@ -49,9 +51,11 @@ pipeline {
         stage('push') {
           agent any
           steps {
+            echo 'Tagging and pushing to docker hub'
             sh 'docker images'
             sh 'docker tag proofofpizza/hello-world:first proofofpizza/hello-world:latest'
             sh "docker tag proofofpizza/hello-world:first proofofpizza/hello-world:$env.GIT_COMMIT"
+            sh "docker image push proofofpizza/hello-world:latest proofofpizza/hello-world:$env.GIT_COMMIT"
           }
         }
       }
