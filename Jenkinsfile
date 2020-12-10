@@ -2,12 +2,10 @@ pipeline {
   agent none
 
   stages{
-    stage('fire up docker'){
+    stage('start up'){
       agent any
       steps{
-        echo 'start up docker daemon'
-        sh 'sudo su'
-        sh "service docker start"
+        echo 'welcome to the pipeline'
       }
     }
     stage('clear out docker containers'){
