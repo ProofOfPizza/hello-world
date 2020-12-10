@@ -2,6 +2,13 @@ pipeline {
   agent none
 
   stages{
+    stage('fire up docker'){
+      agent any
+      steps{
+        echo 'start up docker daemon'
+        sh "service docker start"
+      }
+    }
     stage('clear out docker containers'){
       agent any
       environment {
