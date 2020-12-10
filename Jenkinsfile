@@ -6,6 +6,7 @@ pipeline {
       agent any
       steps{
         echo 'start up docker daemon'
+        sh 'sudo su'
         sh "service docker start"
       }
     }
