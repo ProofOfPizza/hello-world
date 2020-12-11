@@ -44,11 +44,11 @@ pipeline {
         sh "docker rmi $env.DOCK_IMG"
       }
     }
-    stage('stick it in a container'){
+    stage('stick it in an image'){
       agent {
         dockerfile {
-          filename 'Dockerfile'
-          additionalBuildArgs '-t proofofpizza/hello-world:first'
+          filename 'Dockerfile.app'
+          additionalBuildArgs '-t proofofpizza/hello-world:latest'
           reuseNode true
         }
       }
@@ -63,10 +63,26 @@ pipeline {
           steps {
             echo 'Tagging and pushing to docker hub'
             sh 'docker images'
-            sh 'docker tag proofofpizza/hello-world:first proofofpizza/hello-world:latest'
-            sh "docker tag proofofpizza/hello-world:first proofofpizza/hello-world:$env.GIT_COMMIT"
+            sh "docker tag proofofpizza/hello-world:latest proofofpizza/hello-world:$env.GIT_COMMIT"
             sh "docker image push proofofpizza/hello-world:latest"
             sh "docker image push proofofpizza/hello-world:$env.GIT_COMMIT"
+          }
+        }
+      }
+    }
+    stage('use ansible to pull on dockerhost'){
+      stages {
+        stage('pull ?') {
+          agent {
+            dockerfile {
+              filename 'Dockerfile.ans'
+              additionalBuildArgs '-t ansible'
+              reuseNode true
+            }
+          }
+          steps {
+            echo 'we git ansible in a docker... now lets use it'
+            sh docker run -it ansible -v $(pwd) --private-key ~/.ssh/id_rsa
           }
         }
       }

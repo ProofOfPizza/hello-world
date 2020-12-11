@@ -1,0 +1,74 @@
+FROM alpine:latest
+#FROM debian:stable
+# This hack is widely applied to avoid python printing issues in docker containers.
+# See: https://github.com/Docker-Hub-frolvlad/docker-alpine-python3/pull/13
+ENV PYTHONUNBUFFERED=1
+
+ENV BUILD_PACKAGES \
+  bash \
+  curl \
+  tar \
+  openssh \
+  openssh-client \
+  sshpass \
+  shadow \
+  git
+
+
+RUN echo "**** install Python ****" && \
+    apk add --no-cache python3 && \
+    if [ ! -e /usr/bin/python3 ]; then ln -sf python3 /usr/bin/python3 ; fi && \
+    \
+    echo "**** install pip ****" && \
+    python3 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    python3 -m pip install --upgrade pip && \
+    pip install --no-cache --upgrade pip setuptools wheel && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip /usr/bin/pip ; fi
+
+RUN set -x && \
+    \
+    echo "==> Adding build-dependencies..."  && \
+    apk --update add --virtual build-dependencies \
+      gcc \
+      musl-dev \
+      libffi-dev \
+      openssl-dev \
+      python3-dev && \
+    \
+    echo "==> Upgrading apk and system..."  && \
+    apk update && apk upgrade && \
+    apk add --no-cache ${BUILD_PACKAGES}
+
+#RUN rc-update add sshd && rc-status
+
+RUN echo "***** installing Ansible *****" && \
+    pip install ansible
+RUN echo "**********  installing community general *********" && \
+    ansible-galaxy collection install community.general
+
+RUN echo "==> Adding hosts for convenience..."  && \
+    mkdir -p /etc/ansible /ansible && \
+    echo "[local]" >> /etc/ansible/hosts && \
+    echo "localhost" >> /etc/ansible/hosts
+
+ENV ANSIBLE_GATHERING smart
+ENV ANSIBLE_HOST_KEY_CHECKING false
+ENV ANSIBLE_RETRY_FILES_ENABLED false
+ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
+ENV ANSIBLE_SSH_PIPELINING True
+ENV PYTHONPATH /ansible/lib
+ENV PATH /ansible/bin:$PATH
+ENV ANSIBLE_LIBRARY /ansible/library
+
+RUN echo "StrictHostKeyChecking accept-new" > /etc/ssh/ssh_config
+
+RUN useradd --create-home --shell /bin/bash dadmin
+USER dadmin
+
+WORKDIR /ansible
+
+
+#ENTRYPOINT ["ansible-playbook"]
+
+
