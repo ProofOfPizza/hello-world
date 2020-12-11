@@ -82,7 +82,7 @@ pipeline {
           }
           steps {
             echo 'we git ansible in a docker... now lets use it'
-            sh docker run -it ansible -v $(pwd) --private-key ~/.ssh/id_rsa
+            sh 'docker run -it ansible -v $(pwd) --private-key ~/.ssh/id_rsa'
           }
         }
       }
