@@ -72,7 +72,7 @@ pipeline {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: 'dadmin-creds', keyFileVariable: 'KEY')]){
 //          sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
-          sh 'echo $KEY'
+          sh "mkdir -p ~/.ssh && cp $KEY ~/.ssh/id_rsa"
           sh 'ssh-keyscan -H 172.31.24.117 >> ~/.ssh/known_hosts'
           sh 'ssh -v dadmin@172.31.24.117'
 //          sh 'ssh -v -i $KEY dadmin@172.31.24.117'
