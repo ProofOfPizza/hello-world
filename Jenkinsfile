@@ -69,7 +69,6 @@ pipeline {
     }
     stage ('Remote run  container') {
       agent any
-      }
       steps {
         sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
         sh 'ssh -v dadmin@172.31.24.117'
