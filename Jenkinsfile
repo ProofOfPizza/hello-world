@@ -72,13 +72,15 @@ pipeline {
       }
     }
     stage ('Remote run  container') {
-        steps{
-            sshagent(credentials : ['use-the-id-from-credential-generated-by-jenkins']) {
+      steps{
+        agent {
+          sshagent(credentials : ['use-the-id-from-credential-generated-by-jenkins']) {
 //                sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
-                sh 'ssh -v dadmin@172.31.24.117'
-                sh 'docker run -d proofofpizza/hello-world'
-            }
+              sh 'ssh -v dadmin@172.31.24.117'
+              sh 'docker run -d proofofpizza/hello-world'
+          }
         }
+      }
     }
 //    stage('use ansible to pull on dockerhost'){
 //      stages {
