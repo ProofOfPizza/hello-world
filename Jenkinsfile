@@ -68,9 +68,7 @@ pipeline {
       }
     }
     stage ('Remote run  container') {
-      agent {
-        sshagent(credentials : ['use-the-id-from-credential-generated-by-jenkins']) {
-        }
+      agent any
       }
       steps {
         sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
