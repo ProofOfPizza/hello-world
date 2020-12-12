@@ -58,28 +58,24 @@ pipeline {
       }
     }
     stage('push to docker hub'){
-      stages {
-        stage('push') {
-          agent any
-          steps {
-            echo 'Tagging and pushing to docker hub'
-            sh 'docker images'
-            sh "docker tag proofofpizza/hello-world:latest proofofpizza/hello-world:$env.GIT_COMMIT"
-            sh "docker image push proofofpizza/hello-world:latest"
-            sh "docker image push proofofpizza/hello-world:$env.GIT_COMMIT"
-          }
-        }
+      agent any
+      steps {
+        echo 'Tagging and pushing to docker hub'
+        sh 'docker images'
+        sh "docker tag proofofpizza/hello-world:latest proofofpizza/hello-world:$env.GIT_COMMIT"
+        sh "docker image push proofofpizza/hello-world:latest"
+        sh "docker image push proofofpizza/hello-world:$env.GIT_COMMIT"
       }
     }
     stage ('Remote run  container') {
-      steps{
-        agent {
-          sshagent(credentials : ['use-the-id-from-credential-generated-by-jenkins']) {
-//                sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
-              sh 'ssh -v dadmin@172.31.24.117'
-              sh 'docker run -d proofofpizza/hello-world'
-          }
+      agent {
+        sshagent(credentials : ['use-the-id-from-credential-generated-by-jenkins']) {
         }
+      }
+      steps {
+        sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
+        sh 'ssh -v dadmin@172.31.24.117'
+        sh 'docker run -d proofofpizza/hello-world'
       }
     }
 //    stage('use ansible to pull on dockerhost'){
