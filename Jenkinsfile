@@ -47,15 +47,14 @@ pipeline {
     stage('stick it in an image'){
       agent {
         dockerfile {
-//          filename 'Dockerfile.app'
-          filename 'Dockerfile.ans'
+          filename 'Dockerfile.app'
+//          filename 'Dockerfile.ans'
           additionalBuildArgs '-t proofofpizza/hello-world:latest'
           reuseNode true
         }
       }
       steps{
         echo 'we did it'
-        docker ps
       }
     }
     stage('push to docker hub'){
