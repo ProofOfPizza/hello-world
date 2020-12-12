@@ -6,7 +6,7 @@ FROM maven:3.6-jdk-8-openj9 as build
 #RUN adduser -D appuser
 WORKDIR /src
 COPY . .
-RUN ["mvn", "clean","install"]
+RUN mvn clean install -Dmaven.test.skip=true
 RUN ls
 
 FROM tomcat:8-jre8 as release
