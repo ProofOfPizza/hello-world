@@ -70,9 +70,11 @@ pipeline {
     stage ('Remote run  container') {
       agent any
       steps {
-        sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
-        sh 'ssh -v dadmin@172.31.24.117'
-        sh 'docker run -d proofofpizza/hello-world'
+        withCredentials([sshUserPrivateKey(credentialsId: 'dadmin-creds', keyFileVariable: 'KEY')]){
+//          sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
+          sh 'ssh -v -i $KEY dadmin@172.31.24.117'
+          sh 'docker run -d proofofpizza/hello-world'
+        }
       }
     }
 //    stage('use ansible to pull on dockerhost'){
