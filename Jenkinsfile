@@ -67,35 +67,5 @@ pipeline {
         sh "docker image push proofofpizza/hello-world:$env.GIT_COMMIT"
       }
     }
-    stage ('Remote run  container') {
-      agent any
-      steps {
-        withCredentials([sshUserPrivateKey(credentialsId: 'dadmin-creds', keyFileVariable: 'KEY')]){
-//          sh 'ssh -o StrictHostKeyChecking=no dadmin@172.31.24.117 uptime'
-          sh "mkdir -p ~/.ssh && cp $KEY ~/.ssh/id_rsa"
-          sh 'ssh-keyscan -H 172.31.24.117 >> ~/.ssh/known_hosts'
-          sh 'ssh -v dadmin@172.31.24.117'
-//          sh 'ssh -v -i $KEY dadmin@172.31.24.117'
-          sh 'docker run -d proofofpizza/hello-world'
-        }
-      }
-    }
-//    stage('use ansible to pull on dockerhost'){
-//      stages {
-//        stage('pull ?') {
-//          agent {
-//            dockerfile {
-//              filename 'Dockerfile.ans'
-//              additionalBuildArgs '-t ansible'
-//              reuseNode true
-//            }
-//          }
-//          steps {
-//            echo 'we git ansible in a docker... now lets use it'
-//            sh 'docker run -d ansible -v $(pwd) --private-key ~/.ssh/id_rsa'
-//          }
-//        }
-//      }
-//    }
   }
 }
