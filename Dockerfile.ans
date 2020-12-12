@@ -43,7 +43,7 @@ RUN set -x && \
 #RUN rc-update add sshd && rc-status
 
 RUN echo "***** installing Ansible *****" && \
-    pip install ansible
+    pip install ansible==1.9.4
 RUN echo "**********  installing community general *********" && \
     ansible-galaxy collection install community.general
 
