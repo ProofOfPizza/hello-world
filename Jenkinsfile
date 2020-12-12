@@ -71,22 +71,22 @@ pipeline {
         }
       }
     }
-    stage('use ansible to pull on dockerhost'){
-      stages {
-        stage('pull ?') {
-          agent {
-            dockerfile {
-              filename 'Dockerfile.ans'
-              additionalBuildArgs '-t ansible'
-              reuseNode true
-            }
-          }
-          steps {
-            echo 'we git ansible in a docker... now lets use it'
-            sh 'docker run -d ansible -v $(pwd) --private-key ~/.ssh/id_rsa'
-          }
-        }
-      }
-    }
+//    stage('use ansible to pull on dockerhost'){
+//      stages {
+//        stage('pull ?') {
+//          agent {
+//            dockerfile {
+//              filename 'Dockerfile.ans'
+//              additionalBuildArgs '-t ansible'
+//              reuseNode true
+//            }
+//          }
+//          steps {
+//            echo 'we git ansible in a docker... now lets use it'
+//            sh 'docker run -d ansible -v $(pwd) --private-key ~/.ssh/id_rsa'
+//          }
+//        }
+//      }
+//    }
   }
 }
